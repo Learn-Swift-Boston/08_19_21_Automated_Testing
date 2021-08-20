@@ -10,24 +10,50 @@ import XCTest
 
 class LeapTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var sut: LeapLogicController!
+
+    override func setUp() {
+        super.setUp()
+
+        sut = LeapLogicController()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    // MARK: - isLeap() is true
+    func test1988IsLeap() {
+        XCTAssertTrue(sut.isLeap(year: 1988))
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test2000IsLeap() {
+        XCTAssertTrue(sut.isLeap(year: 2000))
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test2004IsLeap() {
+        XCTAssertTrue(sut.isLeap(year: 2004))
     }
 
+    // MARK: - isLeap() is false
+    func test1986IsNotLeap() {
+        XCTAssertFalse(sut.isLeap(year: 1986))
+    }
+
+    func test1900IsNotLeap() { // 1900 is not a leap year because the sun.
+        XCTAssertFalse(sut.isLeap(year: 1900))
+    }
+
+    func test1901IsNotLeap() {
+        XCTAssertFalse(sut.isLeap(year: 1901))
+    }
+
+    // MARK: - getCalculation()
+    func testGetCalculation() {
+        let nonLeapYear = 1902
+        XCTAssertEqual(sut.getCalculation(text: "\(nonLeapYear)"), "\(nonLeapYear) is NOT a leap year!", "this should not be a leap year")
+
+        let leapYear = 2000
+        XCTAssertEqual(sut.getCalculation(text: "\(leapYear)"), "\(leapYear) is a leap year!")
+    }
+
+    func testGettingCalculationStopsNonNumbers() {
+        XCTAssertEqual(sut.getCalculation(text: "Hello Stream"), "Not a number!")
+    }
 }
